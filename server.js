@@ -4,11 +4,11 @@ const util = require('util');
 const myDB = require('./connection');
 
 myDB(async client => {
-  const myDatabase = await client.db('database').collection('collection');
+  const myDatabase = await client.db('scoreboard').collection('nfl');
 
-  // scrape data every 15 seconds
-  cron.schedule('*/15 * * * * *', () => {
-    axios.get("https://dummyjson.com/products")
+  // scrape data every 10 seconds
+  cron.schedule('*/10 * * * * *', () => {
+    axios.get("https://site.api.espn.com/apis/site/v2/sports/football/nfl/scoreboard")
       .then((response) => {
         // get last inserted record from database
         myDatabase.findOne({}, { sort: { "date": -1 } }, (err, result) => {
